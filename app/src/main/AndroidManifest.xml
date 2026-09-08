@@ -5,8 +5,14 @@
         android:label="Fuzul Bütçe"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Material.Light.NoActionBar">
+
         <activity
             android:name=".MainActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ImportActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
