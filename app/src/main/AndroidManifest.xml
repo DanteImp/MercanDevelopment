@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
+        android:name=".FuzulApplication"
         android:allowBackup="true"
-        android:label="Fuzul Bütçe"
+        android:fullBackupContent="true"
+        android:label="Fuzul Planım"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Material.Light.NoActionBar">
-
         <activity
             android:name=".MainActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".ImportActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
