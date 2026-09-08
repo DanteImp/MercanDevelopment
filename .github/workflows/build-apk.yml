@@ -1,4 +1,4 @@
-name: Build APK
+name: Build Fuzul Planim APK
 on:
   push:
     branches: [ main ]
@@ -17,14 +17,24 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
+      - uses: actions/cache@v4
+        with:
+          path: ~/.android/debug.keystore
+          key: fuzul-planim-debug-keystore-v1
+      - name: Create stable debug keystore if needed
+        run: |
+          mkdir -p ~/.android
+          if [ ! -f ~/.android/debug.keystore ]; then
+            keytool -genkeypair -v -keystore ~/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Fuzul Planim Dev,O=Mercan Development,C=TR"
+          fi
       - name: Install SDK
         run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
       - name: Build debug APK
-        run: gradle :app:assembleDebug --no-daemon
+        run: gradle :app:assembleDebug --no-daemon --stacktrace
       - name: Rename APK
-        run: cp app/build/outputs/apk/debug/app-debug.apk FuzulButce-v1.0.apk
+        run: cp app/build/outputs/apk/debug/app-debug.apk FuzulPlanim-v2.0.apk
       - uses: actions/upload-artifact@v4
         with:
-          name: FuzulButce-APK
-          path: FuzulButce-v1.0.apk
+          name: FuzulPlanim-v2.0-APK
+          path: FuzulPlanim-v2.0.apk
           if-no-files-found: error
