@@ -30,10 +30,23 @@ jobs:
       - name: Install SDK
         run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
       - name: Build debug APK
-        run: gradle :app:assembleDebug --no-daemon --stacktrace
+        shell: bash
+        run: |
+          set -o pipefail
+          gradle :app:assembleDebug --no-daemon --stacktrace 2>&1 | tee build.log
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: FuzulPlanim-build-log
+          path: build.log
+          if-no-files-found: warn
       - name: Rename APK
+        if: success()
         run: cp app/build/outputs/apk/debug/app-debug.apk FuzulPlanim-v2.0.apk
-      - uses: actions/upload-artifact@v4
+      - name: Upload APK
+        if: success()
+        uses: actions/upload-artifact@v4
         with:
           name: FuzulPlanim-v2.0-APK
           path: FuzulPlanim-v2.0.apk
